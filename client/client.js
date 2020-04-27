@@ -1,6 +1,7 @@
 const form = document.querySelector('form');
 const loadingElement = document.querySelector('.loading-icon');
 const API_URL = 'http://localhost:5000/brotes';
+const brotesElement = document.querySelector('.brotes');
 
 loadingElement.style.display = 'none';
 
@@ -13,9 +14,10 @@ form.addEventListener('submit', (event) => {
   const name = formData.get('name');
   const content = formData.get('content');
 
+  // create object based on form data
   const brote = {
     name,
-    content
+    content,
   };
 
   // hide loading icon on form submission
@@ -31,13 +33,42 @@ form.addEventListener('submit', (event) => {
     }
   }).then(response => response.json())
     .then(createdBrote => {
-      console.log(createdBrote);
       form.reset();
+
+      // hide form for 10 seconds
+      setTimeout(() => {
+        form.style.display = '';
+      }, 30000);
+
+      listAllBrotes();
       form.style.display = '';
       loadingElement.style.display = 'none';
     });
 });
 
-function listAllBrotes {
-  fetch();
+function listAllBrotes() {
+  brotesElement.innerHTML = '';
+  fetch(API_URL)
+    .then(response => response.json())
+    .then(brotes => {
+      brotes.reverse();
+      brotes.forEach(brote => {
+        const div = document.createElement('div');
+
+        const header = document.createElement('h2');
+        header.textContent = brote.name;
+
+        const contents = document.createElement('p');
+        contents.textContent = brote.content;
+
+        const date = document.createElement('small');
+        date.textContent = brote.created;
+
+        div.appendChild(header);
+        div.appendChild(contents);
+        div.appendChild(date);
+
+        brotesElement.appendChild(div);
+      })
+    });
 }
