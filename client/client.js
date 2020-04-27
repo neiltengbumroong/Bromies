@@ -46,6 +46,8 @@ form.addEventListener('submit', (event) => {
     });
 });
 
+// list all brotes by fetching data from server, reversing, and creating
+// a div for each item in the database
 function listAllBrotes() {
   brotesElement.innerHTML = '';
   fetch(API_URL)
@@ -55,8 +57,8 @@ function listAllBrotes() {
       brotes.forEach(brote => {
         const div = document.createElement('div');
 
-        const header = document.createElement('h2');
-        header.textContent = brote.name;
+        const header = document.createElement('h5');
+        header.textContent = 'Brother '.concat(brote.name, ':')
 
         const contents = document.createElement('p');
         contents.textContent = brote.content;
@@ -64,9 +66,12 @@ function listAllBrotes() {
         const date = document.createElement('small');
         date.textContent = brote.created;
 
+        const lineBreak = document.createElement('br');
+
         div.appendChild(header);
         div.appendChild(contents);
         div.appendChild(date);
+        //div.append(lineBreak);
 
         brotesElement.appendChild(div);
       })

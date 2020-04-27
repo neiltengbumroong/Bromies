@@ -36,7 +36,7 @@ app.get('/brotes', (req, res) => {
 // GET route
 app.get('/', (req, res) => {
   res.json({
-    message: 'Brooo whats good'
+    message: 'Bro whats good'
   });
 });
 
