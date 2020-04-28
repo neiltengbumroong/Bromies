@@ -76,4 +76,5 @@ function listAllBrotes() {
         brotesElement.appendChild(div);
       })
     });
-}
+
+  }

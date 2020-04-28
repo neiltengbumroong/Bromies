@@ -24,6 +24,11 @@ app.listen(5000, () => {
   console.log("Listening on http://localhost:5000");
 });
 
+// GET route
+app.get('/', (req, res) => {
+  res.send('Server running on port 5000');
+});
+
 // on get request, query database to find all items and return as JSON
 app.get('/brotes', (req, res) => {
   brotes
@@ -33,12 +38,6 @@ app.get('/brotes', (req, res) => {
     });
 });
 
-// GET route
-app.get('/', (req, res) => {
-  res.json({
-    message: 'Bro whats good'
-  });
-});
 
 // function to validate form data
 function isValidBrote(brote) {
@@ -66,7 +65,7 @@ app.post('/brotes', (req, res) => {
     // insert brotes into our database, then send it back to our client
     brotes
       .insert(brote)
-      .then(createdBrote=> {
+      .then(createdBrote => {
         res.json(createdBrote);
       });
     } else {
