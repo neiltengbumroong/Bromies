@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Title from './Title';
 import BroteForm from './BroteForm';
 import './css/skeleton.css';
@@ -8,8 +8,8 @@ import './css/styles.css';
 function App() {
   return (
     <div>
-      <Title />
-      <BroteForm />
+    <Title />
+    <BroteForm />
     </div>
   );
 }

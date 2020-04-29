@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 //import BroteList from './BroteList';
-import axios from 'axios';
 import './css/skeleton.css';
 import './css/normalize.css';
 import './css/styles.css';
@@ -10,9 +9,10 @@ const API_URL = 'http://localhost:5000/brotes';
 class BroteForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {name: '', content: ''};
-    console.log(this.props.name);
+    this.state = {name: '', content: '', brotesElements: [] };
+
   }
+
 
   handleNameChange(event) {
     this.setState({name: event.target.value});
@@ -32,19 +32,28 @@ class BroteForm extends Component {
       headers: {
         'content-type': 'application/json'
       }
-    }).then(this.props.updateState(brote))
+    }).then(response => response.json())
+      .then(fetch(API_URL)
+        .then(res => res.json())
+        .then(brotes => {
+          brotes.reverse();
+          this.setState({brotesElements: brotes});
+        }));
+  }
+
+  componentDidMount() {
+    this.displayBrotes();
   }
 
 
-  /*async displayBrotes() {
-    console.log("called");
+  async displayBrotes() {
     fetch(API_URL)
       .then(res => res.json())
       .then(brotes => {
         brotes.reverse();
         this.setState({brotesElements: brotes});
       })
-  }*/
+  }
 
 
 
@@ -78,6 +87,13 @@ class BroteForm extends Component {
               Full Send
             </button>
           </form>
+          {this.state.brotesElements.map(eachBrote =>
+            <div key={eachBrote._id}>
+             <h5>Brother {eachBrote.name}</h5>
+             <p>{eachBrote.content}</p>
+             <small>{eachBrote.created}</small>
+             </div>
+          )}
         </div>
       );
   }
