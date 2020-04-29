@@ -62,7 +62,8 @@ app.post('/brotes', (req, res) => {
     const brote = new Brote ({
       name: filter.clean(req.body.name.toString()),
       content: filter.clean(req.body.content.toString()),
-      created: formatted
+      created: formatted,
+      likes: 0
     });
 
     // insert brotes into our database, then send it back to our client

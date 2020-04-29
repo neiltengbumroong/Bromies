@@ -5,7 +5,7 @@ class Title extends Component {
 
   render(){
       return (
-        <h1 className="title">Bromies: Twitter for the Homies {this.props.name} <Emoji symbol="👬" label="brothers"/> </h1>
+        <h1 className="title">Bromies: Twitter for the Homies <Emoji symbol="👬" label="brothers"/> </h1>
       )
   }
 };

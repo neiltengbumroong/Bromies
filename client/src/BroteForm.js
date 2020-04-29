@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-//import BroteList from './BroteList';
+import BroteRow from './BroteRow';
 import './css/skeleton.css';
 import './css/normalize.css';
 import './css/styles.css';
@@ -33,20 +33,15 @@ class BroteForm extends Component {
         'content-type': 'application/json'
       }
     }).then(response => response.json())
-      .then(fetch(API_URL)
-        .then(res => res.json())
-        .then(brotes => {
-          brotes.reverse();
-          this.setState({brotesElements: brotes});
-        }));
+      .then(this.updateBrotes());
   }
 
   componentDidMount() {
-    this.displayBrotes();
+    this.updateBrotes();
   }
 
 
-  async displayBrotes() {
+  updateBrotes() {
     fetch(API_URL)
       .then(res => res.json())
       .then(brotes => {
@@ -60,6 +55,7 @@ class BroteForm extends Component {
 
   render() {
     return(
+      <>
         <div>
           <form className="brote-form">
             <label htmlFor="name">Name</label>
@@ -87,14 +83,11 @@ class BroteForm extends Component {
               Full Send
             </button>
           </form>
-          {this.state.brotesElements.map(eachBrote =>
-            <div key={eachBrote._id}>
-             <h5>Brother {eachBrote.name}</h5>
-             <p>{eachBrote.content}</p>
-             <small>{eachBrote.created}</small>
-             </div>
-          )}
         </div>
+
+        <BroteRow brotesElements={this.state.brotesElements} />
+
+        </>
       );
   }
 
