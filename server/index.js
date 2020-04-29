@@ -1,19 +1,22 @@
 const express = require('express');
 const cors = require('cors');
-const monk = require('monk');
 const dateformat = require('dateformat');
 const Filter = require('bad-words');
 const rateLimit = require('express-rate-limit');
+const mongoose = require('mongoose');
+const axios = require('axios');
 
 const app = express();
-
 const filter = new Filter();
+
+const broteFormSchema = require('./schema')
 
 
 
 // database connection
-const db = monk('localhost/broties');
-const brotes = db.get('brotes');
+mongoose.connect('mongodb://localhost:27017/bromies', { useUnifiedTopology: true, useNewUrlParser: true });
+var Brote = mongoose.model('Brote', broteFormSchema);
+
 
 // middleware to add headers to requests and parse JSON format
 app.use(cors());
@@ -31,7 +34,7 @@ app.get('/', (req, res) => {
 
 // on get request, query database to find all items and return as JSON
 app.get('/brotes', (req, res) => {
-  brotes
+  Brote
     .find()
     .then(brotes => {
       res.json(brotes);
@@ -56,15 +59,15 @@ app.post('/brotes', (req, res) => {
     let now = new Date();
     let formatted = dateformat(now, 'dddd, mmmm dS, yyyy h:MM:ss TT');
     //insert into db
-    const brote = {
+    const brote = new Brote ({
       name: filter.clean(req.body.name.toString()),
       content: filter.clean(req.body.content.toString()),
       created: formatted
-    };
+    });
 
     // insert brotes into our database, then send it back to our client
-    brotes
-      .insert(brote)
+    brote
+      .save()
       .then(createdBrote => {
         res.json(createdBrote);
       });

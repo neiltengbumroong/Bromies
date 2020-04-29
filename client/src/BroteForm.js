@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-//import listAllBrotes from './DisplayBrotes';
+//import BroteList from './BroteList';
+import axios from 'axios';
 import './css/skeleton.css';
 import './css/normalize.css';
 import './css/styles.css';
@@ -9,20 +10,19 @@ const API_URL = 'http://localhost:5000/brotes';
 class BroteForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {name: '', content: '', brotesElements: [] };
+    this.state = {name: '', content: ''};
+    console.log(this.props.name);
   }
 
-  // event handler for name box
   handleNameChange(event) {
     this.setState({name: event.target.value});
   }
 
-  // event handler for name box
   handleContentChange(event) {
     this.setState({content: event.target.value});
   }
 
-  handleSubmit(event) {
+  handleSubmit(event, props) {
     event.preventDefault();
     const brote = this.state;
     this.setState({name: '', content: ''});
@@ -32,25 +32,22 @@ class BroteForm extends Component {
       headers: {
         'content-type': 'application/json'
       }
-    }).then(response => response.json())
-      .then(fetch(API_URL)
-        .then(res => res.json())
-        .then(brotes => {
-          console.log(brotes);
-
-          brotes.reverse();
-          this.setState({brotesElements: brotes});
-        }));
+    }).then(this.props.updateState(brote))
   }
 
-  componentDidMount() {
+
+  /*async displayBrotes() {
+    console.log("called");
     fetch(API_URL)
       .then(res => res.json())
       .then(brotes => {
         brotes.reverse();
         this.setState({brotesElements: brotes});
-      });
-  }
+      })
+  }*/
+
+
+
 
   render() {
     return(
@@ -81,13 +78,6 @@ class BroteForm extends Component {
               Full Send
             </button>
           </form>
-          {this.state.brotesElements.map(eachBrote =>
-            <div key={eachBrote._id}>
-             <h5>Brother {eachBrote.name}</h5>
-             <p>{eachBrote.content}</p>
-             <small>{eachBrote.created}</small>
-             </div>
-          )}
         </div>
       );
   }
