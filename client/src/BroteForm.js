@@ -26,6 +26,16 @@ class BroteForm extends Component {
     event.preventDefault();
     const brote = this.state;
     this.setState({name: '', content: ''});
+    this.updateDatabase(brote);
+  }
+
+  componentDidMount() {
+    this.updateBrotes();
+  }
+
+
+
+  updateDatabase(brote) {
     fetch(API_URL, {
       method: 'POST',
       body: JSON.stringify(brote),
@@ -35,12 +45,6 @@ class BroteForm extends Component {
     }).then(response => response.json())
       .then(this.updateBrotes());
   }
-
-  componentDidMount() {
-    this.updateBrotes();
-  }
-
-
   updateBrotes() {
     fetch(API_URL)
       .then(res => res.json())
@@ -87,7 +91,7 @@ class BroteForm extends Component {
 
         <BroteRow brotesElements={this.state.brotesElements} />
 
-        </>
+      </>
       );
   }
 
