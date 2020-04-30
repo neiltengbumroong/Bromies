@@ -49,7 +49,7 @@ function isValidBrote(brote) {
 }
 
 app.use(rateLimit({
-  windowMs: 10000, // every 10 seconds
+  windowMs: 5000, // every 5 seconds
   max: 1
 }));
 
