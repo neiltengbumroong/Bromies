@@ -10,6 +10,9 @@ class BroteForm extends Component {
   constructor(props) {
     super(props);
     this.state = {name: '', content: '', brotesElements: [] };
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleContentChange = this.handleContentChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
 
   }
 
@@ -22,7 +25,7 @@ class BroteForm extends Component {
     this.setState({content: event.target.value});
   }
 
-  handleSubmit(event, props) {
+  handleSubmit(event) {
     event.preventDefault();
     const brote = this.state;
     this.setState({name: '', content: ''});
@@ -34,7 +37,7 @@ class BroteForm extends Component {
   }
 
 
-
+  // on update, post to database and use response to update page
   updateDatabase(brote) {
     fetch(API_URL, {
       method: 'POST',
@@ -42,9 +45,11 @@ class BroteForm extends Component {
       headers: {
         'content-type': 'application/json'
       }
-    }).then(response => response.json())
+    }).then(res=> res.json())
       .then(this.updateBrotes());
   }
+
+
   updateBrotes() {
     fetch(API_URL)
       .then(res => res.json())
@@ -69,7 +74,7 @@ class BroteForm extends Component {
               type="text"
               id="name"
               name="name"
-              onChange={this.handleNameChange.bind(this)}
+              onChange={this.handleNameChange}
             />
             <label htmlFor="brote">Brote</label>
             <textarea
@@ -78,19 +83,20 @@ class BroteForm extends Component {
               type="text"
               id="content"
               name="content"
-              onChange={this.handleContentChange.bind(this)}
+              onChange={this.handleContentChange}
             />
             <button
-              onClick={this.handleSubmit.bind(this)}
-              className="button-primary"
+              onClick={this.handleSubmit}
+              className="button-fullsend"
               type="submit">
               Full Send
             </button>
           </form>
         </div>
 
+        <div className="brote-list">
         <BroteRow brotesElements={this.state.brotesElements} />
-
+        </div>
       </>
       );
   }

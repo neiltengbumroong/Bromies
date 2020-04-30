@@ -256,7 +256,7 @@ textarea {
 textarea {
   min-height: 65px;
   padding-top: 6px;
-  padding-bottom: 6px; }
+  padding-bottom: px; }
 input[type="email"]:focus,
 input[type="number"]:focus,
 input[type="search"]:focus,

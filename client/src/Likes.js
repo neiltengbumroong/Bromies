@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Emoji from './Emoji';
 
 class Likes extends Component {
 
@@ -29,7 +30,9 @@ class Likes extends Component {
 
   render() {
     return (
-      <button onClick={this.incrementLikes}>Like {this.state.likes}</button>
+      <div className="like-button-div">
+      <button className="like-button" onClick={this.incrementLikes}> <Emoji symbol="💯"label="one hunnid"/>{this.state.likes}</button>
+      </div>
     )
   }
 }

@@ -9,13 +9,14 @@ class BroteRow extends Component {
   render() {
     return (
       this.props.brotesElements.map(eachBrote =>
-      <div key={eachBrote._id}>
-       <h6>Brother {eachBrote.name}</h6>
-       <small>{eachBrote.content}</small>
-       <br/>
-       <small>{eachBrote.created} </small>
-       <br/>
-       <Likes likes={eachBrote.likes}/>
+      <div className="list-elem">
+        <div className="text-elem">
+          <div key={eachBrote._id}>
+           <h6>Brother {eachBrote.name}<small> &nbsp;<b> @{eachBrote.name} </b>• {eachBrote.created} </small></h6>
+           <p>{eachBrote.content}</p>
+           <Likes likes={eachBrote.likes}/>
+          </div>
+        </div>
       </div>
       )
     );
