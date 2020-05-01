@@ -15,7 +15,9 @@ const broteFormSchema = require('./schema')
 
 // database connection
 mongoose.connect('mongodb://localhost:27017/bromies', { useUnifiedTopology: true, useNewUrlParser: true });
-var Brote = mongoose.model('Brote', broteFormSchema);
+mongoose.set('useFindAndModify', false);
+const Brote = mongoose.model('Brote', broteFormSchema);
+
 
 
 // middleware to add headers to requests and parse JSON format
@@ -48,10 +50,10 @@ function isValidBrote(brote) {
   brote.content && brote.content.toString().trim() != '';
 }
 
-app.use(rateLimit({
-  windowMs: 5000, // every 5 seconds
-  max: 1
-}));
+// app.use(rateLimit({
+//   windowMs: 5000, // every 5 seconds
+//   max: 1
+// }));
 
 // POST route
 app.post('/brotes', (req, res) => {
@@ -80,7 +82,13 @@ app.post('/brotes', (req, res) => {
     }
   });
 
-  app.post('/likes', (req, res) => {
-    console.log(req._id);
-    Brote.findOneAndUpdate({_id: req.id}, {$inc: { likes: 1}});
+  // post route for liking
+  app.post('/likes', (req, res) => {;
+    let query = { _id: req.body.id};
+    if (req.body.increment) {
+      Brote.findOneAndUpdate(query, {$inc: { likes: 1 }}, {new: true}, (err, brote) => {});
+    } else {
+      Brote.findOneAndUpdate(query, {$inc: { likes: -1 }}, {new: true}, (err, brote) => {});
+    }
+    
   })

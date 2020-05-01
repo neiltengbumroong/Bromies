@@ -14,8 +14,14 @@ class Likes extends Component {
     this.incrementLikes = this.incrementLikes.bind(this);
   }
 
+  // increment by posting to URL with brote 
   incrementLikes() {
-    /*if (!this.state.updated) {
+    // if state hasn't been updated then increment, send true
+    if (!this.state.updated) {
+      axios.post(LIKES_URL, {
+        id: this.props.brote._id,
+        increment: true
+      });
       this.setState((prevState, props) => {
         return {    
           likes: this.state.likes + 1,
@@ -23,15 +29,20 @@ class Likes extends Component {
         };
       });
     } else {
+      // else if state has already been updated we are disliking, send false
+      axios.post(LIKES_URL, {
+        id: this.props.brote._id,
+        increment: false
+      });
       this.setState((prevState, props) => {
         return {
           likes: prevState.likes - 1,
           updated: false
         };
       });
-    }*/
+    }
 
-    axios.post(LIKES_URL, this.state.brote);
+    
 
   }
 

@@ -33,7 +33,9 @@ class BroteForm extends Component {
   // on submit, set state and update database with helper method
   handleSubmit(event) {
     event.preventDefault();
-    const brote = this.state;
+    const name = this.state.name;
+    const content = this.state.content;
+    const brote = {name, content};
     this.setState({name: '', content: ''});
     this.updateDatabase(brote);
   }
@@ -61,15 +63,10 @@ class BroteForm extends Component {
       })
   }
 
-  updateLikes() {}
-
-
-
 
   render() {
     return(
       <>
-        <div>
           <form className="brote-form">
             <label htmlFor="name">Name</label>
             <input
@@ -98,21 +95,20 @@ class BroteForm extends Component {
               </button>
             </div>
           </form>
-        </div>
 
-        <div className="brote-list">
-          {this.state.brotesElements.map(eachBrote => 
-            <div key={eachBrote._id}>
-              <div className="list-elem">
-                <div className="text-elem">     
-                <h6><b> Brother {eachBrote.name} • </b> <small>  {eachBrote.created} </small></h6>
-                <p>{eachBrote.content}</p>
-                <Likes brote={eachBrote} updateDatabase={this.updateDatabase}/>
+          <div className="brote-list">
+            {this.state.brotesElements.map(eachBrote => 
+              <div key={eachBrote._id}>
+                <div className="list-elem">
+                  <div className="text-elem">     
+                    <h6><b> Brother {eachBrote.name} • </b> <small>  {eachBrote.created} </small></h6>
+                    <p>{eachBrote.content}</p>
+                    <Likes brote={eachBrote} displayBrotes={this.displayBrotes}/>
+                  </div>
                 </div>
               </div>
-            </div>
-         )}
-        </div>
+          )}
+          </div>
       </>
       );
   }
