@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import BroteRow from './BroteRow';
+import axios from 'axios';
+import Likes from './Likes';
 import './css/skeleton.css';
 import './css/normalize.css';
 import './css/styles.css';
@@ -13,18 +14,23 @@ class BroteForm extends Component {
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleContentChange = this.handleContentChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.updateDatabase = this.updateDatabase.bind(this);
+    this.displayBrotes = this.displayBrotes.bind(this);
 
   }
 
 
+  // handle name change
   handleNameChange(event) {
     this.setState({name: event.target.value});
   }
 
+  // handle content change
   handleContentChange(event) {
     this.setState({content: event.target.value});
   }
 
+  // on submit, set state and update database with helper method
   handleSubmit(event) {
     event.preventDefault();
     const brote = this.state;
@@ -32,32 +38,30 @@ class BroteForm extends Component {
     this.updateDatabase(brote);
   }
 
+  // as soon as component mounts, fetch data and display
   componentDidMount() {
-    this.updateBrotes();
+    this.displayBrotes();
   }
 
 
-  // on update, post to database and use response to update page
+  // on update, post to URL and use response to update page
   updateDatabase(brote) {
-    fetch(API_URL, {
-      method: 'POST',
-      body: JSON.stringify(brote),
-      headers: {
-        'content-type': 'application/json'
-      }
-    }).then(res=> res.json())
-      .then(this.updateBrotes());
+    axios.post(API_URL, brote)
+    .then(this.displayBrotes());
   }
 
 
-  updateBrotes() {
-    fetch(API_URL)
-      .then(res => res.json())
-      .then(brotes => {
+  // fetch brotes from URL and set state to force render
+  displayBrotes() {
+    axios.get(API_URL)
+      .then(res => {
+        const brotes = res.data;
         brotes.reverse();
         this.setState({brotesElements: brotes});
       })
   }
+
+  updateLikes() {}
 
 
 
@@ -85,17 +89,29 @@ class BroteForm extends Component {
               name="content"
               onChange={this.handleContentChange}
             />
-            <button
-              onClick={this.handleSubmit}
-              className="button-fullsend"
-              type="submit">
-              Full Send
-            </button>
+            <div className="full-send-button">
+              <button
+                onClick={this.handleSubmit}
+                className="button-fullsend"
+                type="submit">
+                Full Send
+              </button>
+            </div>
           </form>
         </div>
 
         <div className="brote-list">
-        <BroteRow brotesElements={this.state.brotesElements} />
+          {this.state.brotesElements.map(eachBrote => 
+            <div key={eachBrote._id}>
+              <div className="list-elem">
+                <div className="text-elem">     
+                <h6><b> Brother {eachBrote.name} • </b> <small>  {eachBrote.created} </small></h6>
+                <p>{eachBrote.content}</p>
+                <Likes brote={eachBrote} updateDatabase={this.updateDatabase}/>
+                </div>
+              </div>
+            </div>
+         )}
         </div>
       </>
       );

@@ -1,20 +1,24 @@
 import React, { Component } from 'react';
 import Emoji from './Emoji';
+import axios from 'axios';
+
+const LIKES_URL = 'http://localhost:5000/likes';
 
 class Likes extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { likes: this.props.likes,
+    this.state = { likes: this.props.brote.likes,
                    updated: false
                  }
+    this.incrementLikes = this.incrementLikes.bind(this);
   }
 
   incrementLikes() {
-    if (!this.state.updated) {
+    /*if (!this.state.updated) {
       this.setState((prevState, props) => {
-        return {
-          likes: prevState.likes + 1,
+        return {    
+          likes: this.state.likes + 1,
           updated: true
         };
       });
@@ -25,7 +29,10 @@ class Likes extends Component {
           updated: false
         };
       });
-    }
+    }*/
+
+    axios.post(LIKES_URL, this.state.brote);
+
   }
 
   render() {

@@ -27,7 +27,7 @@ app.listen(5000, () => {
   console.log("Listening on http://localhost:5000");
 });
 
-// GET route
+// GET route6
 app.get('/', (req, res) => {
   res.send('Server running on port 5000');
 });
@@ -75,7 +75,12 @@ app.post('/brotes', (req, res) => {
     } else {
       res.status(422);
       res.json({
-        message: "Please do not leave any fields blank! - management"
+        message: "come on man"
       });
     }
   });
+
+  app.post('/likes', (req, res) => {
+    console.log(req._id);
+    Brote.findOneAndUpdate({_id: req.id}, {$inc: { likes: 1}});
+  })
