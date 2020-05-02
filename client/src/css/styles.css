@@ -41,6 +41,8 @@
 
 .text-elem {
   margin-left: 10px;
+  margin-right: 10px;
+  overflow-wrap: break-word;
 }
 
 .button-fullsend {
@@ -65,6 +67,7 @@
 .name-chars, .content-chars {
   text-align: right;
 }
+
 
 body {
   background-color: rgba(255, 140, 105, 0.5);

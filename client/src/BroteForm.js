@@ -73,7 +73,7 @@ class BroteForm extends Component {
       <>
         
           <form className="brote-form">
-          <div className="brote-form-wrapper">
+          <div className="brote-form-input-wrapper">
             <label htmlFor="name">Name</label>
             <input
               className="u-full-width"
@@ -81,7 +81,7 @@ class BroteForm extends Component {
               type="text"
               id="name"
               name="name"
-              maxLength="10"
+              maxLength="20"
               onChange={this.handleNameChange}
             />
             <div className="name-chars"> <span>Characters remaining: {this.state.nameChars}</span></div>
@@ -95,6 +95,7 @@ class BroteForm extends Component {
               name="content"
               maxLength="200"
               onChange={this.handleContentChange}
+              wrap="hard"
             />
             <div className="content-chars"> <span>Characters remaining: {this.state.contentChars}</span></div>
             </div>
