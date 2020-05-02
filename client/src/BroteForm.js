@@ -16,7 +16,6 @@ class BroteForm extends Component {
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleContentChange = this.handleContentChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.updateDatabase = this.updateDatabase.bind(this);
     this.displayBrotes = this.displayBrotes.bind(this);
 
   }
@@ -41,7 +40,7 @@ class BroteForm extends Component {
     const content = this.state.content;
     const brote = {name, content};
     this.setState({name: '', content: '', contentChars: maxContent});
-    this.updateDatabase(brote);
+    axios.post(API_URL, brote)
   }
 
   // as soon as component mounts, fetch data and display
@@ -49,11 +48,8 @@ class BroteForm extends Component {
     this.displayBrotes();
   }
 
-
-  // on update, post to URL and use response to update page
-  updateDatabase(brote) {
-    axios.post(API_URL, brote)
-    .then(this.displayBrotes());
+  componentDidUpdate() {
+    this.displayBrotes();
   }
 
 
@@ -115,8 +111,9 @@ class BroteForm extends Component {
                   <div className="text-elem">     
                     <h6><b> Brother {eachBrote.name} • </b> <small>  {eachBrote.created} </small></h6>
                     <p>{eachBrote.content}</p>
-                    <Likes brote={eachBrote} displayBrotes={this.displayBrotes}/>
                   </div>
+                  <Likes brote={eachBrote} displayBrotes={this.displayBrotes}/>
+                  
                 </div>
               </div>
           )}
