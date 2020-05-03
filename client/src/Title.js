@@ -5,7 +5,9 @@ class Title extends Component {
 
   render(){
       return (
+        <div className="top-nav">
         <h1 className="title">Bromies: Twitter for the Homies <Emoji symbol="👬" label="brothers"/> </h1>
+        </div>
       )
   }
 };
