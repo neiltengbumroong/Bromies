@@ -22,6 +22,7 @@ class Likes extends Component {
         id: this.props.brote._id,
         increment: true
       });
+      this.props.loadAggregate();
       this.setState((prevState, props) => {
         return {    
           likes: this.state.likes + 1,
@@ -34,6 +35,7 @@ class Likes extends Component {
         id: this.props.brote._id,
         increment: false
       });
+      this.props.loadAggregate();
       this.setState((prevState, props) => {
         return {
           likes: prevState.likes - 1,

@@ -14,7 +14,10 @@ const broteFormSchema = require('./schema')
 
 
 // database connection
-mongoose.connect('mongodb://localhost:27017/bromies', { useUnifiedTopology: true, useNewUrlParser: true });
+mongoose.connect('mongodb://localhost:27017/bromies', { useUnifiedTopology: true, useNewUrlParser: true }).
+  catch(error => {
+    console.log(error)
+  });
 mongoose.set('useFindAndModify', false);
 const Brote = mongoose.model('Brote', broteFormSchema);
 
@@ -43,6 +46,18 @@ app.get('/brotes', (req, res) => {
     });
 });
 
+app.get('/aggregate', (req, res) => {
+  Brote.aggregate([
+    {
+      $group: { 
+       _id: null, 
+       total: { $sum: "$likes" } } 
+      }])
+      .then(result => {
+        res.json(result);
+      })
+})
+
 
 // function to validate form data
 function isValidBrote(brote) {
@@ -50,10 +65,10 @@ function isValidBrote(brote) {
   brote.content && brote.content.toString().trim() != '';
 }
 
-// app.use(rateLimit({
-//   windowMs: 5000, // every 5 seconds
-//   max: 1
-// }));
+//  app.use(rateLimit({
+//    windowMs: 5000, // every 5 seconds
+//    max: 1
+//  }));
 
 // POST route
 app.post('/brotes', (req, res) => {
@@ -89,6 +104,5 @@ app.post('/brotes', (req, res) => {
       Brote.findOneAndUpdate(query, {$inc: { likes: 1 }}, {new: true}, (err, brote) => {});
     } else {
       Brote.findOneAndUpdate(query, {$inc: { likes: -1 }}, {new: true}, (err, brote) => {});
-    }
-    
+    }  
   })
