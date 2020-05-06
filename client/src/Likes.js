@@ -18,17 +18,18 @@ class Likes extends Component {
   incrementLikes() {
     // if state hasn't been updated then increment, send true
     if (!this.state.updated) {
-      axios.post(LIKES_URL, {
-        id: this.props.brote._id,
-        increment: true
-      });
-      this.props.incrementLikeCounter(1);
-      this.setState((prevState, props) => {
+       this.setState((prevState, props) => {
         return {    
           likes: this.state.likes + 1,
           updated: true
         };
       });
+      axios.post(LIKES_URL, {
+        id: this.props.brote._id,
+        increment: true
+      });
+      this.props.incrementLikeCounter(1);
+     
     } else {
       // else if state has already been updated we are disliking, send false
       axios.post(LIKES_URL, {
@@ -42,9 +43,7 @@ class Likes extends Component {
           updated: false
         };
       });
-    }
-
-    
+    } 
 
   }
 

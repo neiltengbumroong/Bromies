@@ -9,6 +9,7 @@ import './css/styles.css';
 
 
 const BROTE_URL = 'http://localhost:5000/brotes';
+const AGGREGATE_URL = 'http://localhost:5000/aggregate';
 
 
 
@@ -19,21 +20,33 @@ class BroteHome extends Component {
     this.state = {
       brotesElements: [], 
       shownElements: [],
+      totalLikes: 0
     }
     this.fetchBrotes = this.fetchBrotes.bind(this);
     this.incrementLikeCounter = this.incrementLikeCounter.bind(this);
+    this.loadAggregate = this.loadAggregate.bind(this);
   }
 
   
 
-  // as soon as component mounts, fetch data and display
+  //as soon as component mounts, fetch data and display
   componentDidMount() {
-    this.fetchBrotes()
+    this.fetchBrotes();
+    this.loadAggregate();
   }
 
   // componentDidUpdate() {
   //   this.loadAggregate();
   // }
+
+  loadAggregate() {
+    // if (this.props.totalBrotes > 0) {
+      axios.get(AGGREGATE_URL)
+      .then(res => {
+        this.setState({totalLikes: res.data[0].total});
+      })
+    // }   
+  }
 
   // fetch brotes from URL and set state to force render
   fetchBrotes() {
@@ -58,7 +71,7 @@ class BroteHome extends Component {
 
 
   render() {
-    // console.log("broteform");
+    console.log("home rendered");
     return(
       
       <>
@@ -81,7 +94,7 @@ class BroteHome extends Component {
           </div>
           
           <div className="right-side">
-            <BroteStats totalBrotes={this.state.brotesElements.length} loadAggregate={this.loadAggregate}/> 
+            <BroteStats totalBrotes={this.state.brotesElements.length} totalLikes={this.state.totalLikes}/> 
           </div>
         </div>
       </>
