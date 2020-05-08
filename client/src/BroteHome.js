@@ -9,7 +9,6 @@ import './css/normalize.css';
 import './css/styles.css';
 
 
-const BROTE_URL = 'http://localhost:5000/brotes';
 const AGGREGATE_URL = 'http://localhost:5000/aggregate';
 const BROTE_URLV2 = 'http://localhost:5000/brotesv2';
 const AGGREGATEBROTES_URL = 'http://localhost:5000/aggregateBrotes';
@@ -22,7 +21,6 @@ class BroteHome extends Component {
     super(props);
     this.state = {
       brotesElements: [], 
-      shownElements: [],
       totalLikes: 0,
       totalElements: 0,
       skip: 0,
@@ -31,6 +29,7 @@ class BroteHome extends Component {
     this.fetchBrotes = this.fetchBrotes.bind(this);
     this.incrementLikeCounter = this.incrementLikeCounter.bind(this);
     this.loadAggregate = this.loadAggregate.bind(this);
+    this.resetBrotes = this.resetBrotes.bind(this);
   }
 
   
@@ -45,11 +44,22 @@ class BroteHome extends Component {
       axios.get(AGGREGATEBROTES_URL)
     ])
     .then(res => {
-      this.setState({totalBrotes: res[1].data});
-      this.setState({totalLikes: res[0].data[0].totalLikes});
+      this.setState({
+        totalBrotes: res[1].data,
+        totalLikes: res[0].data[0].totalLikes
+      });
     }) 
   }
 
+  // reset brotes and make soft refresh on form submission
+  resetBrotes() {
+    this.setState({
+      brotesElements: [],
+      skip: 0
+    }, () => {
+      this.fetchBrotes();
+    });
+  }
 
   // fetch brotes from URL and set state to force render
   fetchBrotes() {
@@ -60,7 +70,6 @@ class BroteHome extends Component {
       }
     })
     .then(res => {
-      console.log(res.data);
       this.setState((prevState) => {
         if (prevState.skip + limit >= this.state.totalBrotes) {
           return {
@@ -100,7 +109,7 @@ class BroteHome extends Component {
       <>
         <div className="parent">
           <div className="left-side">   
-            <BroteForm fetchBrotes={this.fetchBrotes} loadAggregate={this.loadAggregate}/>
+            <BroteForm fetchBrotes={this.fetchBrotes} loadAggregate={this.loadAggregate} resetBrotes={this.resetBrotes}/>
             <InfiniteScroll
               loadMore={this.fetchBrotes}
               hasMore={this.state.hasMore}
