@@ -40,11 +40,12 @@ class BroteForm extends Component {
     const brote = {name, content};
     this.setState({name: '', content: '', nameChars: maxName, contentChars: maxContent});
     axios.post(BROTE_URL, brote)
-    .then(this.props.fetchBrotes()); 
+      .then(this.props.fetchBrotes()) 
+      .then(this.props.loadAggregate());
   }
 
   render() {
-    console.log("form rendering");
+    // console.log("form rendering");
     return (
       <form className="brote-form">
       <div className="brote-form-input-wrapper">

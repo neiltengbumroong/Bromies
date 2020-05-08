@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import BroteStats from './BroteStats';
 import BroteForm from './BroteForm';
+import InfiniteScroll from 'react-infinite-scroller';
 import axios from 'axios';
 import Likes from './Likes';
 import './css/skeleton.css';
@@ -10,8 +11,10 @@ import './css/styles.css';
 
 const BROTE_URL = 'http://localhost:5000/brotes';
 const AGGREGATE_URL = 'http://localhost:5000/aggregate';
+const BROTE_URLV2 = 'http://localhost:5000/brotesv2';
+const AGGREGATEBROTES_URL = 'http://localhost:5000/aggregateBrotes';
 
-
+const limit = 5;
 
 
 class BroteHome extends Component {
@@ -20,7 +23,10 @@ class BroteHome extends Component {
     this.state = {
       brotesElements: [], 
       shownElements: [],
-      totalLikes: 0
+      totalLikes: 0,
+      totalElements: 0,
+      skip: 0,
+      hasMore: true
     }
     this.fetchBrotes = this.fetchBrotes.bind(this);
     this.incrementLikeCounter = this.incrementLikeCounter.bind(this);
@@ -28,37 +34,48 @@ class BroteHome extends Component {
   }
 
   
-
   //as soon as component mounts, fetch data and display
   componentDidMount() {
-    this.fetchBrotes();
     this.loadAggregate();
   }
 
-  // componentDidUpdate() {
-  //   this.loadAggregate();
-  // }
-
   loadAggregate() {
-    // if (this.props.totalBrotes > 0) {
-      axios.get(AGGREGATE_URL)
-      .then(res => {
-        this.setState({totalLikes: res.data[0].total});
-      })
-    // }   
+    axios.all([
+      axios.get(AGGREGATE_URL),
+      axios.get(AGGREGATEBROTES_URL)
+    ])
+    .then(res => {
+      this.setState({totalBrotes: res[1].data});
+      this.setState({totalLikes: res[0].data[0].totalLikes});
+    }) 
   }
+
 
   // fetch brotes from URL and set state to force render
   fetchBrotes() {
-    axios.get(BROTE_URL)
+    axios.get(BROTE_URLV2, { 
+      params: {
+        skip: this.state.skip,
+        limit: limit
+      }
+    })
     .then(res => {
-      this.setState({
-      brotesElements: res.data.reverse()
+      console.log(res.data);
+      this.setState((prevState) => {
+        if (prevState.skip + limit >= this.state.totalBrotes) {
+          return {
+            hasMore: false,
+            brotesElements: [...prevState.brotesElements, ...res.data]
+          }
+        } else {
+          return {
+            skip: prevState.skip + limit,
+            brotesElements: [...prevState.brotesElements, ...res.data]
+          }
+        }   
       });
     })
   }
-
-  
 
   incrementLikeCounter(value) {
     this.setState((prevState) => {
@@ -68,33 +85,34 @@ class BroteHome extends Component {
     })
   }
 
-
-
   render() {
-    console.log("home rendered");
+    const loader = <div className="loader">Loading ...</div>;
+    const items = this.state.brotesElements.map(eachBrote => 
+       <div className="list-elem" key={eachBrote._id}>
+         <div className="text-elem">     
+           <h6><b> Brother {eachBrote.name} • </b> <small>  {eachBrote.created} </small></h6>
+           <p>{eachBrote.content}</p>
+         </div>
+         <Likes brote={eachBrote} incrementLikeCounter={this.incrementLikeCounter}/>
+      </div>
+   )
     return(
-      
       <>
         <div className="parent">
           <div className="left-side">   
-            <BroteForm fetchBrotes={this.fetchBrotes}/>
-            <div className="brote-list">
-              {this.state.brotesElements.map(eachBrote => 
-                <div key={eachBrote._id}>
-                  <div className="list-elem">
-                    <div className="text-elem">     
-                      <h6><b> Brother {eachBrote.name} • </b> <small>  {eachBrote.created} </small></h6>
-                      <p>{eachBrote.content}</p>
-                    </div>
-                    <Likes brote={eachBrote} incrementLikeCounter={this.incrementLikeCounter}/>
-                  </div>
-                </div>
-              )}
-            </div>        
-          </div>
-          
+            <BroteForm fetchBrotes={this.fetchBrotes} loadAggregate={this.loadAggregate}/>
+            <InfiniteScroll
+              loadMore={this.fetchBrotes}
+              hasMore={this.state.hasMore}
+              loader={loader}
+            >
+              <div className="brote-list">
+                {items}    
+              </div> 
+            </InfiniteScroll>                       
+          </div>      
           <div className="right-side">
-            <BroteStats totalBrotes={this.state.brotesElements.length} totalLikes={this.state.totalLikes}/> 
+            <BroteStats totalBrotes={this.state.totalBrotes} totalLikes={this.state.totalLikes}/> 
           </div>
         </div>
       </>

@@ -4,7 +4,6 @@ const dateformat = require('dateformat');
 const Filter = require('bad-words');
 const rateLimit = require('express-rate-limit');
 const mongoose = require('mongoose');
-const axios = require('axios');
 
 const app = express();
 const filter = new Filter();
@@ -22,7 +21,6 @@ mongoose.set('useFindAndModify', false);
 const Brote = mongoose.model('Brote', broteFormSchema);
 
 
-
 // middleware to add headers to requests and parse JSON format
 app.use(cors());
 app.use(express.json());
@@ -32,7 +30,7 @@ app.listen(5000, () => {
   console.log("Listening on http://localhost:5000");
 });
 
-// GET route6
+// GET route
 app.get('/', (req, res) => {
   res.send('Server running on port 5000');
 });
@@ -46,17 +44,37 @@ app.get('/brotes', (req, res) => {
     });
 });
 
+// get last n documents from database based on scrolling from client-side actions
+app.get('/brotesv2', (req, res) => {
+  Brote
+    .find()
+    .sort({_id: -1})
+    .skip(parseInt(req.query.skip))
+    .limit(parseInt(req.query.limit))
+    .then(brotes => {
+      res.json(brotes);
+    });
+});
+
 app.get('/aggregate', (req, res) => {
   Brote.aggregate([
     {
       $group: { 
-       _id: null, 
-       total: { $sum: "$likes" } } 
+        _id: null, 
+        totalLikes: { $sum: "$likes" } }
       }])
       .then(result => {
         res.json(result);
       })
-})
+});
+
+app.get('/aggregateBrotes', (req, res) => {
+  Brote
+    .estimatedDocumentCount()
+    .then(count => {
+      res.json(count);
+    })
+});
 
 
 // function to validate form data

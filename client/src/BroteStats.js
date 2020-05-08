@@ -1,10 +1,7 @@
 import React, {Component} from 'react';
-import axios from 'axios';
 import './css/skeleton.css';
 import './css/normalize.css';
 import './css/styles.css';
-
-const AGGREGATE_URL = 'http://localhost:5000/aggregate';
 
 class BroteStats extends Component {
 
