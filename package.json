@@ -4,14 +4,19 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-      "client": "cd client && npm start",
-      "server": "cd server && npm start",
-      "start": "node server/index.js --prefix server"
+        "client": "cd client && npm start",
+        "server": "cd server && npm start",
+        "start": "node server/index.js --prefix server"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "devDependencies": {
         "nodemon": "^2.0.3"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "mongoose": "^5.9.14",
+        "morgan": "^1.10.0"
     }
-  }
+}
