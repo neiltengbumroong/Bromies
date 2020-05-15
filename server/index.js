@@ -14,7 +14,7 @@ const port = process.env.PORT || 5000;
 const dbconn = 'mongodb+srv://neilteng:Chicken1889@bromies-ujo6f.mongodb.net/test?retryWrites=true&w=majority' || 'mongodb://localhost:27017/bromies';
 
 // database connection
-mongoose.connect(dbconn, { useUnifiedTopology: true, useNewUrlParser: true }).
+mongoose.connect(dbconn, { useNewUrlParser: true }).
   catch(error => {
     console.log(error)
   });
@@ -29,6 +29,11 @@ app.use(express.json());
 // basic listening connection
 app.listen(port, () => {
   console.log("Listening on port", port);
+});
+
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });
 
 // GET route
