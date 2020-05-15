@@ -16,7 +16,7 @@ const port = process.env.PORT || 5000;
 const dbconn = 'mongodb+srv://neilteng:Chicken1889@bromies-ujo6f.mongodb.net/test?retryWrites=true&w=majority' || 'mongodb://localhost:27017/bromies';
 
 // database connection
-mongoose.connect(dbconn, { useNewUrlParser: true}, { useUnifiedTopology: true }).
+mongoose.connect(dbconn, { useNewUrlParser: true, useUnifiedTopology: true }).
   catch(error => {
     console.log(error)
   });
