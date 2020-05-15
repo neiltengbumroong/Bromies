@@ -11,10 +11,10 @@ const filter = new Filter();
 const broteFormSchema = require('./schema')
 const port = process.env.PORT || 5000;
 
-
+const dbconn = 'mongodb+srv://neilteng:Chicken1889@bromies-ujo6f.mongodb.net/test?retryWrites=true&w=majority' || 'mongodb://localhost:27017/bromies';
 
 // database connection
-mongoose.connect('mongodb://localhost:27017/bromies', { useUnifiedTopology: true, useNewUrlParser: true }).
+mongoose.connect(dbconn, { useUnifiedTopology: true, useNewUrlParser: true }).
   catch(error => {
     console.log(error)
   });
@@ -28,7 +28,7 @@ app.use(express.json());
 
 // basic listening connection
 app.listen(port, () => {
-  console.log("Listening on port");
+  console.log("Listening on port", port);
 });
 
 // GET route
@@ -85,10 +85,10 @@ function isValidBrote(brote) {
   brote.content && brote.content.toString().trim() != '';
 }
 
- app.use(rateLimit({
-   windowMs: 5000, // every 5 seconds
-   max: 1
- }));
+//  app.use(rateLimit({
+//    windowMs: 5000, // every 5 seconds
+//    max: 1
+//  }));
 
 // POST route
 app.post('/brotes', (req, res) => {

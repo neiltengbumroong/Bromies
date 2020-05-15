@@ -9,9 +9,9 @@ import './css/normalize.css';
 import './css/styles.css';
 
 
-const AGGREGATE_URL = window.location.hostname === '127.0.0.1' ? 'http://localhost:5000/aggregate' : 'https://bromies.herokuapp.com/aggregate';
-const BROTE_URLV2 = window.location.hostname === '127.0.0.1' ? 'http://localhost:5000/brotesv2' : 'https://bromies.herokuapp.com/brotesv';
-const AGGREGATEBROTES_URL = window.location.hostname === '127.0.0.1' ? 'http://localhost:5000/aggregateBrotes' : 'https://bromies.herokuapp.com/aggregateBrotes';
+const AGGREGATE_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/aggregate' : 'https://bromies.herokuapp.com/aggregate';
+const BROTE_URLV2 = window.location.hostname === 'localhost' ? 'http://localhost:5000/brotesv2' : 'https://bromies.herokuapp.com/brotesv2';
+const AGGREGATEBROTES_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/aggregateBrotes' : 'https://bromies.herokuapp.com/aggregateBrotes';
 
 const limit = 5;
 
@@ -45,8 +45,8 @@ class BroteHome extends Component {
     ])
     .then(res => {
       this.setState({
-        totalBrotes: res[1].data,
-        totalLikes: res[0].data[0].totalLikes
+        totalBrotes: res === undefined ? 0 : res[1].data,
+        totalLikes: res[0].data[0] === undefined ? 0 : res[0].data[0].totalLikes
       });
     }) 
   }
@@ -55,7 +55,8 @@ class BroteHome extends Component {
   resetBrotes() {
     this.setState({
       brotesElements: [],
-      skip: 0
+      skip: 0,
+      hasMore: true
     }, () => {
       this.fetchBrotes();
     });
@@ -78,6 +79,7 @@ class BroteHome extends Component {
           }
         } else {
           return {
+            hasMore: true,
             skip: prevState.skip + limit,
             brotesElements: [...prevState.brotesElements, ...res.data]
           }
@@ -95,9 +97,8 @@ class BroteHome extends Component {
   }
 
   render() {
-    const loader = <div className="loader">Loading ...</div>;
-    const items = this.state.brotesElements.map(eachBrote => 
-       <div className="list-elem" key={eachBrote._id}>
+    const items = this.state.brotesElements.map((eachBrote, i) => 
+       <div className="list-elem" key={eachBrote._id + i}>
          <div className="text-elem">     
            <h6><b> Brother {eachBrote.name} • </b> <small>  {eachBrote.created} </small></h6>
            <p>{eachBrote.content}</p>
@@ -113,7 +114,6 @@ class BroteHome extends Component {
             <InfiniteScroll
               loadMore={this.fetchBrotes}
               hasMore={this.state.hasMore}
-              loader={loader}
             >
               <div className="brote-list">
                 {items}    
