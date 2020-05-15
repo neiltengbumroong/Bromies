@@ -9,6 +9,7 @@ const app = express();
 const filter = new Filter();
 
 const broteFormSchema = require('./schema')
+const port = process.env.PORT || 5000;
 
 
 
@@ -26,8 +27,8 @@ app.use(cors());
 app.use(express.json());
 
 // basic listening connection
-app.listen(5000, () => {
-  console.log("Listening on http://localhost:5000");
+app.listen(port, () => {
+  console.log("Listening on port");
 });
 
 // GET route
@@ -83,10 +84,10 @@ function isValidBrote(brote) {
   brote.content && brote.content.toString().trim() != '';
 }
 
-//  app.use(rateLimit({
-//    windowMs: 5000, // every 5 seconds
-//    max: 1
-//  }));
+ app.use(rateLimit({
+   windowMs: 5000, // every 5 seconds
+   max: 1
+ }));
 
 // POST route
 app.post('/brotes', (req, res) => {
