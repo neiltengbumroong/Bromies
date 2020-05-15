@@ -57,9 +57,9 @@ class BroteHome extends Component {
       brotesElements: [],
       skip: 0,
       hasMore: true
-    }) setTimeout(() => {
+    }, () => {
       this.fetchBrotes();
-    }, 100);
+    });
   }
 
   // fetch brotes from URL and set state to force render
