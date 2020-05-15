@@ -33,7 +33,7 @@ app.listen(port, () => {
 
 // GET route
 app.get('/', (req, res) => {
-  res.send('Server running on port 5000');
+  res.send('Server running on port');
 });
 
 // on get request, query database to find all items and return as JSON

@@ -4,7 +4,7 @@ import './css/skeleton.css';
 import './css/normalize.css';
 import './css/styles.css';
 
-const BROTE_URL = window.location.hostname === '127.0.0.1' ? 'http://localhost:5000/brotes' : '...';
+const BROTE_URL = window.location.hostname === '127.0.0.1' ? 'http://localhost:5000/brotes' : 'https://bromies.herokuapp.com/brotes';
 const maxContent = 200;
 const maxName = 20;
 

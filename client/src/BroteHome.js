@@ -9,9 +9,9 @@ import './css/normalize.css';
 import './css/styles.css';
 
 
-const AGGREGATE_URL = 'http://localhost:5000/aggregate';
-const BROTE_URLV2 = 'http://localhost:5000/brotesv2';
-const AGGREGATEBROTES_URL = 'http://localhost:5000/aggregateBrotes';
+const AGGREGATE_URL = window.location.hostname === '127.0.0.1' ? 'http://localhost:5000/aggregate' : 'https://bromies.herokuapp.com/aggregate';
+const BROTE_URLV2 = window.location.hostname === '127.0.0.1' ? 'http://localhost:5000/brotesv2' : 'https://bromies.herokuapp.com/brotesv';
+const AGGREGATEBROTES_URL = window.location.hostname === '127.0.0.1' ? 'http://localhost:5000/aggregateBrotes' : 'https://bromies.herokuapp.com/aggregateBrotes';
 
 const limit = 5;
 
