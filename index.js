@@ -107,11 +107,15 @@ app.post('/brotes', (req, res) => {
   if (isValidBrote(req.body)) {
     let now = new Date();
     let formatted = dateformat(now, 'dddd, mmmm dS, yyyy h:MM:ss TT');
+    var date = new Date();
+    let utcDate = new Date(date.toUTCString());
+    utcDate.setHours(utcDate.getHours()-8);
+    let usDate = new Date(utcDate);
     //insert into db
     const brote = new Brote ({
       name: filter.clean(req.body.name.toString()),
       content: filter.clean(req.body.content.toString()),
-      created: new Date(),
+      created: usDate,
       likes: 0
     });
 
