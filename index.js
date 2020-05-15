@@ -39,14 +39,14 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 //   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 // });
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname+'/client/build/index.html'));
-});
-
-// // GET route
-// app.get('/', (req, res) => {
-//   res.send('Server running on port');
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname+'/client/build/index.html'));
 // });
+
+// GET route
+app.get('/', (req, res) => {
+  res.send('Server running on port');
+});
 
 // on get request, query database to find all items and return as JSON
 app.get('/brotes', (req, res) => {
