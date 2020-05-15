@@ -52,14 +52,14 @@ class BroteHome extends Component {
   }
 
   // reset brotes and make soft refresh on form submission
-  resetBrotes() {
+  resetBrotes(callback) {
     this.setState({
       brotesElements: [],
       skip: 0,
       hasMore: true
-    }, () => {
+    }) setTimeout(() => {
       this.fetchBrotes();
-    });
+    }, 100);
   }
 
   // fetch brotes from URL and set state to force render
