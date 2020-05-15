@@ -38,6 +38,7 @@ app.get('/', (req, res) => {
 
 // on get request, query database to find all items and return as JSON
 app.get('/brotes', (req, res) => {
+  console.log("brotes");
   Brote
     .find()
     .then(brotes => {
