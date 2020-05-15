@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Emoji from './Emoji';
 import axios from 'axios';
 
-const LIKES_URL = 'http://localhost:5000/likes';
+const LIKES_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000/likes' : 'https://bromies.herokuapp.com/likes';
 
 class Likes extends Component {
 
