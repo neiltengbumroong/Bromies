@@ -104,7 +104,7 @@ app.post('/brotes', (req, res) => {
     const brote = new Brote ({
       name: filter.clean(req.body.name.toString()),
       content: filter.clean(req.body.content.toString()),
-      created: new Date(),
+      created: formatted,
       likes: 0
     });
 
