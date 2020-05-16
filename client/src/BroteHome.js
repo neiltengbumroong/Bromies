@@ -53,10 +53,10 @@ class BroteHome extends Component {
 
   // reset brotes and make soft refresh on form submission
   resetBrotes() {
+    // console.log("before", this.state.brotesElements);
     this.setState({
       brotesElements: [],
       skip: 0,
-      hasMore: true
     }, () => {
       this.fetchBrotes();
     });
@@ -64,6 +64,7 @@ class BroteHome extends Component {
 
   // fetch brotes from URL and set state to force render
   fetchBrotes() {
+    console.log("Fetched");
     axios.get(BROTE_URLV2, { 
       params: {
         skip: this.state.skip,
@@ -96,6 +97,10 @@ class BroteHome extends Component {
     })
   }
 
+  // componentDidUpdate() {
+  //   console.log("updated");
+  // }
+
   render() {
     const items = this.state.brotesElements.map((eachBrote, i) => 
        <div className="list-elem" key={eachBrote._id + i}>
@@ -105,7 +110,7 @@ class BroteHome extends Component {
          </div>
          <Likes brote={eachBrote} incrementLikeCounter={this.incrementLikeCounter}/>
       </div>
-   )
+    ) 
     return(
       <>
         <div className="parent">

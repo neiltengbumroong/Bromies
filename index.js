@@ -34,14 +34,7 @@ app.listen(port, () => {
 });
 
 
-app.use(express.static(path.join(__dirname, 'client/build')));
-// app.get('/', function(req, res) {
-//   res.sendFile(path.join(__dirname, 'build', 'index.html'));
-// });
-
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname+'/client/build/index.html'));
-// });
+// app.use(express.static(path.join(__dirname, 'client/build')));
 
 // GET route
 app.get('/', (req, res) => {
@@ -115,7 +108,7 @@ app.post('/brotes', (req, res) => {
     const brote = new Brote ({
       name: filter.clean(req.body.name.toString()),
       content: filter.clean(req.body.content.toString()),
-      created: usDate,
+      created: formatted,
       likes: 0
     });
 
