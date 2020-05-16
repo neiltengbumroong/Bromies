@@ -104,7 +104,7 @@ app.post('/brotes', (req, res) => {
     const brote = new Brote ({
       name: filter.clean(req.body.name.toString()),
       content: filter.clean(req.body.content.toString()),
-      created: formatted.concat(" (Pacific Daylight Time)"),
+      created: new Date(),
       likes: 0
     });
 
