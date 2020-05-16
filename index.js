@@ -13,7 +13,7 @@ const broteFormSchema = require('./schema')
 const port = process.env.PORT || 5000;
 
 
-const dbconn = 'mongodb+srv://neilteng:Chicken1889@bromies-ujo6f.mongodb.net/test?retryWrites=true&w=majority' || 'mongodb://localhost:27017/bromies';
+const dbconn = process.env.MONGO_URI || 'mongodb://localhost:27017/bromies';
 
 // database connection
 mongoose.connect(dbconn, { useNewUrlParser: true, useUnifiedTopology: true }).
