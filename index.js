@@ -34,7 +34,7 @@ app.listen(port, () => {
 });
 
 
-// app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 // GET route
 app.get('/', (req, res) => {
