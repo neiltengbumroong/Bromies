@@ -40,8 +40,12 @@ class BroteForm extends Component {
     const brote = {name, content};
     this.setState({name: '', content: '', nameChars: maxName, contentChars: maxContent});
     axios.post(BROTE_URL, brote)
-      .then(this.props.resetBrotes()) 
-      .then(this.props.loadAggregate());
+      .then(() => {
+        this.props.resetBrotes()
+      }) 
+      .then(() => {
+        this.props.loadAggregate()
+      });
   }
 
   render() {

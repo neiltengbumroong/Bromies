@@ -24,7 +24,8 @@ class BroteHome extends Component {
       totalLikes: 0,
       totalElements: 0,
       skip: 0,
-      hasMore: true
+      hasMore: true,
+      isLoading: false
     }
     this.fetchBrotes = this.fetchBrotes.bind(this);
     this.incrementLikeCounter = this.incrementLikeCounter.bind(this);
@@ -64,7 +65,7 @@ class BroteHome extends Component {
 
   // fetch brotes from URL and set state to force render
   fetchBrotes() {
-    console.log("Fetched");
+    this.setState({isLoading: true});
     axios.get(BROTE_URLV2, { 
       params: {
         skip: this.state.skip,
@@ -87,6 +88,9 @@ class BroteHome extends Component {
         }   
       });
     })
+    .then(() => {
+      this.setState({isLoading: false});
+    })
   }
 
   incrementLikeCounter(value) {
@@ -96,10 +100,6 @@ class BroteHome extends Component {
       }
     })
   }
-
-  // componentDidUpdate() {
-  //   console.log("updated");
-  // }
 
   render() {
     const items = this.state.brotesElements.map((eachBrote, i) => 
@@ -118,7 +118,7 @@ class BroteHome extends Component {
             <BroteForm fetchBrotes={this.fetchBrotes} loadAggregate={this.loadAggregate} resetBrotes={this.resetBrotes}/>
             <InfiniteScroll
               loadMore={this.fetchBrotes}
-              hasMore={this.state.hasMore}
+              hasMore={this.state.hasMore && !this.state.isLoading}
             >
               <div className="brote-list">
                 {items}    
