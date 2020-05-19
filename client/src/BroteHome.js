@@ -54,10 +54,10 @@ class BroteHome extends Component {
 
   // reset brotes and make soft refresh on form submission
   resetBrotes() {
-    // console.log("before", this.state.brotesElements);
     this.setState({
       brotesElements: [],
       skip: 0,
+      isLoading: true
     }, () => {
       this.fetchBrotes();
     });
