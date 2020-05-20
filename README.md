@@ -12,9 +12,9 @@ I created this application to educate myself on web development, as I have never
 <br><br>
 Technologies used: <br>
 
-[React](https://reactjs.org/) <br>
-[Node.js](https://nodejs.org/en/) <br>
-[Express.js](https://expressjs.com/) <br>
-[Mongoose](https://mongoosejs.com/) <br>
-[MongoDB Atlas](https://www.mongodb.com/cloud/atlas) <br>
-[Heroku Deploy](https://dashboard.heroku.com/) <br>
+* [React](https://reactjs.org/) <br>
+* [Node.js](https://nodejs.org/en/) <br>
+* [Express.js](https://expressjs.com/) <br>
+* [Mongoose](https://mongoosejs.com/) <br>
+* [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) <br>
+* [Heroku Deploy](https://dashboard.heroku.com/) <br>
