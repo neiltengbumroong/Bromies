@@ -7,14 +7,14 @@ Features include: <br>
 * Live database statistics
 * Liking and unliking a brote
 * Infinite scrolling
-<br>
+<img src="BromiesDemo.gif" alt="alt text" width="700" height="500">
 I created this application to educate myself on web development, as I have never done anything like this before. I taught myself how to create responsive pages on the client side using React, and how to read and write APIs on my server through Node.js. I also wanted to learn how to perform CRUD operations with an online database, and how to use this to serve my application. I finally managed to deploy my app online, and learned how to read website logs and how to maintain my MongoDB cluster. 
 <br><br>
 Technologies used: <br>
 
-[React](https://reactjs.org/) <br>
-[Node.js](https://nodejs.org/en/) <br>
-[Express.js](https://expressjs.com/) <br>
-[Mongoose](https://mongoosejs.com/) <br>
-[MongoDB Atlas](https://www.mongodb.com/cloud/atlas) <br>
-[Heroku Deploy](https://dashboard.heroku.com/) <br>
+* [React](https://reactjs.org/) <br>
+* [Node.js](https://nodejs.org/en/) <br>
+* [Express.js](https://expressjs.com/) <br>
+* [Mongoose](https://mongoosejs.com/) <br>
+* [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) <br>
+* [Heroku Deploy](https://dashboard.heroku.com/) <br>
